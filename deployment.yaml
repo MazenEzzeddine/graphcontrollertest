@@ -1,0 +1,341 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: workload
+  name: workload
+spec:
+  restartPolicy: Never
+  containers:
+    - name: java-kafka-producer
+      image: docker.io/mezzeddine/oldproducer:v2
+      #image: docker.io/mezzeddine/200persec:v0
+      ports:
+        - containerPort: 8080
+          name: brom
+      #image: docker.io/mezzeddine/traceproducerpersec2h:v0
+
+      env:
+        - name: BOOTSTRAP_SERVERS
+          value: my-cluster-kafka-bootstrap:9092
+        - name: TOPIC
+          value: testtopic1
+        - name: DELAY_MS
+          value: "1000"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: PRODUCER_ACKS
+          value: "0"
+        - name: ADDITIONAL_CONFIG
+          value: |
+            retries=100
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: security
+  name: security
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: security
+  template:
+    metadata:
+      labels:
+        app: security
+    spec:
+      containers:
+        - name: security
+          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
+          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
+          #image: docker.io/mezzeddine/consumerfractionalsecacq:v3 # consumerfractionalsecacq1:v11
+          #image: docker.io/mezzeddine/consumertest:v2
+          #image: docker.io/mezzeddine/consumertest:v5
+          #image: docker.io/mezzeddine/consumertest:v11 ##OK
+          #image: docker.io/mezzeddine/consumertest:v13
+          #image: docker.io/mezzeddine/consumertest:v19
+          image: docker.io/mezzeddine/consumersplit:v0
+
+
+
+          ports:
+            - containerPort: 8080
+              name: brom
+
+
+          env:
+            - name: BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+            - name: TOPIC
+              value: testtopic1
+            - name: GROUP_ID
+              value: testgroup1
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: SLEEP
+              value: "2" ##"2"
+            - name: MESSAGE_COUNT
+              value: "1000000"
+            - name: ADDITIONAL_CONFIG
+              value: |
+                max.poll.records=100
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: visa
+  name: visa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app2: visa
+  template:
+    metadata:
+      labels:
+        app2: visa
+    spec:
+      containers:
+        - name: visa
+          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
+          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
+          #image: docker.io/mezzeddine/consumerfractionalsecacq:v3 # consumerfractionalsecacq1:v11
+          #image: docker.io/mezzeddine/consumertest:v2
+          #image: docker.io/mezzeddine/consumertest:v5
+          #image: docker.io/mezzeddine/consumertest:v11 ##OK
+          #image: docker.io/mezzeddine/consumertest:v13
+          #image: docker.io/mezzeddine/consumertest:v20 ### OK
+          #image: docker.io/mezzeddine/consumerisspro:v5
+          image: docker.io/mezzeddine/consumersplittoclient:v1
+
+
+
+
+          ports:
+            - containerPort: 8080
+              name: brom
+
+
+          env:
+            - name: BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+            - name: TOPIC
+              value: testtopic2
+            - name: GROUP_ID
+              value: testgroup2
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: SLEEP
+              value: "2" ##"2"
+            - name: MESSAGE_COUNT
+              value: "1000000"
+            - name: ADDITIONAL_CONFIG
+              value: |
+                max.poll.records=100
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: merchant
+  name: merchant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app3: merchant
+  template:
+    metadata:
+      labels:
+        app3: merchant
+    spec:
+      containers:
+        - name: merchant
+          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
+          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
+          #image: docker.io/mezzeddine/consumerfractionalacqiss:v3
+          #image: docker.io/mezzeddine/consumerisspro:v4
+          #image: docker.io/mezzeddine/consumerisspro:v5
+          image: docker.io/mezzeddine/consumersplittoclient:v2
+
+
+          ports:
+            - containerPort: 8080
+              name: brom
+
+
+
+          env:
+            - name: BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+            - name: TOPIC
+              value: testtopic3
+            - name: GROUP_ID
+              value: testgroup3
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: SLEEP
+              value: "2" ##"2"
+            - name: MESSAGE_COUNT
+              value: "1000000"
+            - name: ADDITIONAL_CONFIG
+              value: |
+                max.poll.records=200
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: client
+  name: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app4: client
+  template:
+    metadata:
+      labels:
+        app4: client
+    spec:
+      containers:
+        - name: client
+          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
+          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
+          #image: docker.io/mezzeddine/consumerfractionalacqiss:v3
+          #image: docker.io/mezzeddine/consumerisspro:v4
+          image: docker.io/mezzeddine/consumerisspro:v5
+          #image: docker.io/mezzeddine/consumersplittoclient:v0
+
+
+          ports:
+            - containerPort: 8080
+              name: brom
+
+
+
+          env:
+            - name: BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+            - name: TOPIC
+              value: testtopic4
+            - name: GROUP_ID
+              value: testgroup4
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: SLEEP
+              value: "2" ##"2"
+            - name: MESSAGE_COUNT
+              value: "1000000"
+            - name: ADDITIONAL_CONFIG
+              value: |
+                max.poll.records=200
+---
+
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: demoobservabilitypodmonitor
+  labels:
+    app: strimzi
+spec:
+  selector:
+    matchLabels:
+      app: security
+  namespaceSelector:
+    matchNames:
+      - default
+  podMetricsEndpoints:
+    - path: /prometheus
+      port: brom
+      interval: 5s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: demoobservabilitypodmonitor1
+  labels:
+    app: strimzi
+spec:
+  selector:
+    matchLabels:
+      app2: visa
+  namespaceSelector:
+    matchNames:
+      - default
+  podMetricsEndpoints:
+    - path: /prometheus
+      port: brom
+      interval: 5s
+---
+
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: demoobservabilitypodmonitor2
+  labels:
+    app: strimzi
+spec:
+  selector:
+    matchLabels:
+      app3: merchant
+  namespaceSelector:
+    matchNames:
+      - default
+  podMetricsEndpoints:
+    - path: /prometheus
+      port: brom
+      interval: 5s
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: grpcassignmentserver
+  name: controllerandscaler
+spec:
+  restartPolicy: Never
+  containers:
+    - name: controllerandscaler
+
+      #image: docker.io/mezzeddine/graphcontroller2:v30
+      #image: docker.io/mezzeddine/graphcontroller2:v30
+      #image: docker.io/mezzeddine/graphtest:
+      image: docker.io/mezzeddine/graphtest:v2
+
+
+
+
+
+      ports:
+        - containerPort: 5002
+      env:
+        - name: BOOTSTRAP_SERVERS
+          value: my-cluster-kafka-bootstrap:9092
+
+
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: demoobservabilitypodmonitor3
+  labels:
+    app: strimzi
+spec:
+  selector:
+    matchLabels:
+      app4: client
+  namespaceSelector:
+    matchNames:
+      - default
+  podMetricsEndpoints:
+    - path: /prometheus
+      port: brom
+      interval: 5s
