@@ -85,19 +85,19 @@ public class Main {
         ArrivalRates.arrivalRateTopic2(g.getVertex(2).getG());*/
 
         Util.computeBranchingFactors(g);
-      /*  for (int m = 0; m < topoOrder.size(); m++) {
-            log.info("Vertex/CG number {} in topo order is {}", m, topoOrder.get(m).getG());
+        for (int m = 0; m < topoOrder.size(); m++) {
+            log.info("Vertex/CG number {} in topo order is {}", m, topoOrder.get(m).getG().getName());
             getArrivalRate(g, m);
-            if (Duration.between(topoOrder.get(m).getG().getLastUpScaleDecision(),
+           /* if (Duration.between(topoOrder.get(m).getG().getLastUpScaleDecision(),
                     Instant.now()).getSeconds() > 15) {
                 //queryconsumergroups.QueryRate.queryConsumerGroup();
                 BinPack2.scaleAsPerBinPack(topoOrder.get(m).getG());
-            }
-        }*/
+            }*/
+        }
     }
 
 
-    /*static void getArrivalRate(Graph g, int m) throws ExecutionException, InterruptedException {
+    static void getArrivalRate(Graph g, int m) throws ExecutionException, InterruptedException {
 
         int[][] A = g.getAdjMat();
 
@@ -107,22 +107,23 @@ public class Main {
             if (A[parent][m] == 1) {
                 //log.info( " {} {} is a prarent of {} {}", parent, g.getVertex(parent).getG() , m, g.getVertex(m).getG() );
                 grandParent = false;
-                totalArrivalRate += (g.getVertex(parent).getG().getTotalArrivalRate() *//*+
-                        (g.getVertex(parent).getG().getTotalLag()/(g.getVertex(parent).getG().getWsla()))*//*)
+                totalArrivalRate += (g.getVertex(parent).getG().getTotalArrivalRate() /*+
+                        (g.getVertex(parent).getG().getTotalLag()/(g.getVertex(parent).getG().getWsla()))*/)
                         * g.getBF()[parent][m];
             }
         }
 
         if (grandParent) {
             ArrivalRates.arrivalRateTopicGeneral(g.getVertex(m).getG(), false);
-            log.info("Arrival rate of micorservice {} {}", m, g.getVertex(m).getG().getTotalArrivalRate());
+            log.info("Arrival rate of micorservice {} {} {}", m, g.getVertex(m).getG().getName(),
+                    g.getVertex(m).getG().getTotalArrivalRate());
         } else {
             g.getVertex(m).getG().setTotalArrivalRate(totalArrivalRate);
-            ArrivalRates.arrivalRateTopicGeneral(g.getVertex(m).getG(), true);
-            log.info("Arrival rate of micorservice {} {}", m, g.getVertex(m).getG().getTotalArrivalRate());
+//            ArrivalRates.arrivalRateTopicGeneral(g.getVertex(m).getG(), true);
+            log.info("Arrival rate of micorservice {} {} {}", m,g.getVertex(m).getG().getName()
+                    , g.getVertex(m).getG().getTotalArrivalRate());
         }
 
     }
-*/
 
 }

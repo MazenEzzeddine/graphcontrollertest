@@ -52,7 +52,7 @@ public class Util {
                 g.setBF(parent,child, bf);
                 log.info("BF[{}][{}]={}", parent, child, g.getBF()[parent][child]);
                 log.info("BF[{}][{}]={}", g.getVertex(parent).getG().getName(),
-                        g.getVertex(parent).getG().getName(),  g.getVertex(child).getG().getName());
+                        g.getVertex(child).getG().getName(),  g.getBF()[parent][child]);
 
             }
         }
