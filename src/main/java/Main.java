@@ -88,11 +88,11 @@ public class Main {
         for (int m = 0; m < topoOrder.size(); m++) {
             log.info("Vertex/CG number {} in topo order is {}", m, topoOrder.get(m).getG().getName());
             getArrivalRate(g, m);
-           /* if (Duration.between(topoOrder.get(m).getG().getLastUpScaleDecision(),
+            if (Duration.between(topoOrder.get(m).getG().getLastUpScaleDecision(),
                     Instant.now()).getSeconds() > 15) {
                 //queryconsumergroups.QueryRate.queryConsumerGroup();
                 BinPack2.scaleAsPerBinPack(topoOrder.get(m).getG());
-            }*/
+            }
         }
     }
 
