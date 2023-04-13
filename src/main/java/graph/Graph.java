@@ -58,13 +58,11 @@ public class Graph {
     public Stack<Vertex> dfs(Vertex start) {
         s.push(start);
         start.isVisited = true;
-        //System.out.print(start);
 
         while(!s.isEmpty()) {
             Vertex vet = unVisitedAdjVet(s.peek());
                 if (vet != null) {
                     vet.isVisited = true;
-                   // System.out.print(vet);
                     s.push(vet);
                 } else {
                    topoStack.push(s.pop());
