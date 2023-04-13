@@ -14,7 +14,6 @@ spec:
         - containerPort: 8080
           name: brom
       #image: docker.io/mezzeddine/traceproducerpersec2h:v0
-
       env:
         - name: BOOTSTRAP_SERVERS
           value: my-cluster-kafka-bootstrap:9092
@@ -48,23 +47,10 @@ spec:
     spec:
       containers:
         - name: security
-          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
-          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
-          #image: docker.io/mezzeddine/consumerfractionalsecacq:v3 # consumerfractionalsecacq1:v11
-          #image: docker.io/mezzeddine/consumertest:v2
-          #image: docker.io/mezzeddine/consumertest:v5
-          #image: docker.io/mezzeddine/consumertest:v11 ##OK
-          #image: docker.io/mezzeddine/consumertest:v13
-          #image: docker.io/mezzeddine/consumertest:v19
           image: docker.io/mezzeddine/consumersplit:v0
-
-
-
           ports:
             - containerPort: 8080
               name: brom
-
-
           env:
             - name: BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9092
@@ -82,7 +68,6 @@ spec:
               value: |
                 max.poll.records=100
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -101,25 +86,10 @@ spec:
     spec:
       containers:
         - name: visa
-          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
-          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
-          #image: docker.io/mezzeddine/consumerfractionalsecacq:v3 # consumerfractionalsecacq1:v11
-          #image: docker.io/mezzeddine/consumertest:v2
-          #image: docker.io/mezzeddine/consumertest:v5
-          #image: docker.io/mezzeddine/consumertest:v11 ##OK
-          #image: docker.io/mezzeddine/consumertest:v13
-          #image: docker.io/mezzeddine/consumertest:v20 ### OK
-          #image: docker.io/mezzeddine/consumerisspro:v5
           image: docker.io/mezzeddine/consumersplittoclient:v1
-
-
-
-
           ports:
             - containerPort: 8080
               name: brom
-
-
           env:
             - name: BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9092
@@ -136,7 +106,6 @@ spec:
             - name: ADDITIONAL_CONFIG
               value: |
                 max.poll.records=100
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -156,20 +125,10 @@ spec:
     spec:
       containers:
         - name: merchant
-          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
-          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
-          #image: docker.io/mezzeddine/consumerfractionalacqiss:v3
-          #image: docker.io/mezzeddine/consumerisspro:v4
-          #image: docker.io/mezzeddine/consumerisspro:v5
           image: docker.io/mezzeddine/consumersplittoclient:v2
-
-
           ports:
             - containerPort: 8080
               name: brom
-
-
-
           env:
             - name: BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9092
@@ -205,22 +164,10 @@ spec:
     spec:
       containers:
         - name: client
-          #image: docker.io/mezzeddine/securityacquirer:v5 # consumerfractionalsecacq:v0
-          #image: docker.io/mezzeddine/consumerfractionalsecacq:v2
-          #image: docker.io/mezzeddine/consumerfractionalacqiss:v3
-          #image: docker.io/mezzeddine/consumerisspro:v4
-          #image: docker.io/mezzeddine/consumerisspro:v5 ## this
-          #image: docker.io/mezzeddine/consumersplittoclient:v0
           image: docker.io/mezzeddine/finalconsumer:v0
-
-
-
           ports:
             - containerPort: 8080
               name: brom
-
-
-
           env:
             - name: BOOTSTRAP_SERVERS
               value: my-cluster-kafka-bootstrap:9092
@@ -305,31 +252,12 @@ spec:
   restartPolicy: Never
   containers:
     - name: controllerandscaler
-
-      #image: docker.io/mezzeddine/graphcontroller2:v30
-      #image: docker.io/mezzeddine/graphcontroller2:v30
-      #image: docker.io/mezzeddine/graphtest:
-      #image: docker.io/mezzeddine/graphtest:v2
-      #image: docker.io/mezzeddine/graphtest:v3
-      #image: docker.io/mezzeddine/graphtest:v5
-      #image: docker.io/mezzeddine/graphtest:v6
       image: docker.io/mezzeddine/graphtest:v7
-
-
-
-
-
-
-
-
       ports:
         - containerPort: 5002
       env:
         - name: BOOTSTRAP_SERVERS
           value: my-cluster-kafka-bootstrap:9092
-
-
-
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
