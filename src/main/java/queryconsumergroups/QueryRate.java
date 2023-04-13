@@ -29,13 +29,13 @@ public class QueryRate {
      static void queryConsumerGroup() throws ExecutionException, InterruptedException {
 
         DescribeConsumerGroupsResult describeConsumerGroupsResult =
-                admin.describeConsumerGroups(Collections.singletonList("testgroup5"));
+                admin.describeConsumerGroups(Collections.singletonList("testgroup4"));
         KafkaFuture<Map<String, ConsumerGroupDescription>> futureOfDescribeConsumerGroupsResult =
                 describeConsumerGroupsResult.all();
 
         consumerGroupDescriptionMap = futureOfDescribeConsumerGroupsResult.get();
 
-        for (MemberDescription memberDescription : consumerGroupDescriptionMap.get("testgroup5").members()) {
+        for (MemberDescription memberDescription : consumerGroupDescriptionMap.get("testgroup4").members()) {
             log.info("Calling the consumer {} for its consumption rate ", memberDescription.host());
          callForConsumptionRate(memberDescription.host());
         }
