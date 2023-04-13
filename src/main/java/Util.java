@@ -43,7 +43,6 @@ public class Util {
     static void computeBranchingFactors(Graph g) throws ExecutionException, InterruptedException {
 
         int [][] A = g.getAdjMat();
-
         for (int parent = 0; parent < A.length ;parent++) {
         for (int child = 0; child < A[parent].length; child++) {
             if (A[parent][child] == 1) {
@@ -53,11 +52,9 @@ public class Util {
                 log.info("BF[{}][{}]={}", parent, child, g.getBF()[parent][child]);
                 log.info("BF[{}][{}]={}", g.getVertex(parent).getG().getName(),
                         g.getVertex(child).getG().getName(),  g.getBF()[parent][child]);
-
             }
         }
         }
-
     }
 
 }

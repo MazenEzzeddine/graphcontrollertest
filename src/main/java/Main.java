@@ -23,7 +23,7 @@ public class Main {
     private static void initialize() throws InterruptedException, ExecutionException {
         Graph g = new Graph(4);
 
-        ConsumerGroup g0 = new ConsumerGroup("testtopic1", 1,
+      /*  ConsumerGroup g0 = new ConsumerGroup("testtopic1", 1,
                 175, 2,
                 "security", "testgroup1");
         ConsumerGroup g1 = new ConsumerGroup("testtopic2", 1,
@@ -35,7 +35,16 @@ public class Main {
         ConsumerGroup g3 = new ConsumerGroup("testtopic4", 1,
                 175, 2,
                 "client", "testgroup4");
+*/
 
+        ConsumerGroup g0 = new ConsumerGroup("testtopic1", 1, 1.66,
+                "security", "testgroup1");
+        ConsumerGroup g1 = new ConsumerGroup("testtopic2", 1, 1.66,
+                "visa", "testgroup2");
+        ConsumerGroup g2 = new ConsumerGroup("testtopic3", 1, 1.66,
+                "merchant", "testgroup3");
+        ConsumerGroup g3 = new ConsumerGroup("testtopic4", 1, 1.66,
+                "client", "testgroup4");
 
         g.addVertex(0, g0);
         g.addVertex(1, g1);
@@ -46,6 +55,12 @@ public class Main {
         g.addEdge(0, 2);
         g.addEdge(1, 3);
         g.addEdge(2, 3);
+
+        ////////////////////////////////////
+
+
+
+        ////////////////////////////////////
 
 
         Stack<Vertex> ts = g.dfs(g.getVertex(0));

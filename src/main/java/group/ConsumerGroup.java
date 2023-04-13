@@ -21,7 +21,9 @@ public class ConsumerGroup {
     Instant lastUpScaleDecision = Instant.now();
 
     public ConsumerGroup(String inputTopic, Integer size,
+/*
                          double dynamicAverageMaxConsumptionRate,
+*/
                          double wsla, String name, String kname) {
         this.inputTopic = inputTopic;
         this.size = size;
