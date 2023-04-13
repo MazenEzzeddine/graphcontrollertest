@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BinPack2 {
 
-
+   //TODO give fup and fdown as paramters to the functions.
     private static final Logger log = LogManager.getLogger(BinPack2.class);
 
     public static void scaleAsPerBinPack(ConsumerGroup g) {
