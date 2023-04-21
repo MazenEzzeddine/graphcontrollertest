@@ -97,7 +97,8 @@ public class ConsumerGroup {
     }
     public void setTotalLag(double totalLag) {
 
-        double max = Math.max(totalArrivalRate, dynamicAverageMaxConsumptionRate*size);
+        double max = Math.max(totalArrivalRate,
+                dynamicAverageMaxConsumptionRate*size);
         totalLag = Math.max(totalLag - max, 0);
 
         this.totalLag = totalLag;

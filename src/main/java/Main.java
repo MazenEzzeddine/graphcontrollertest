@@ -58,11 +58,6 @@ public class Main {
 
         ////////////////////////////////////
 
-
-
-        ////////////////////////////////////
-
-
         Stack<Vertex> ts = g.dfs(g.getVertex(0));
         List<Vertex> topoOrder = new ArrayList<>();
         //topological order
@@ -72,7 +67,6 @@ public class Main {
          log.info("The graph in topo order");
         for (int i = 0; i < topoOrder.size(); i++) {
             log.info("vertex index {}, vertex name {} ", i, topoOrder.get(i).getG().getName());
-
         }
 
 /*
