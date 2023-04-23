@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class QueryForBF {
     private static final Logger log = LogManager.getLogger(QueryForBF.class);
-    static double  queryForBF(String topici, String topico)
+    static double  queryForBF(/*String topici,*/ String topico)
             throws ExecutionException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
@@ -25,15 +25,21 @@ public class QueryForBF {
                 "query=sum("+ topici+")";
         String testtopic2 = "http://prometheus-operated:9090/api/v1/query?query=sum("
                 + topico + ")";*/
-        String testtopic1i = "http://prometheus-operated:9090/api/v1/query?" +
+      /*  String testtopic1i = "http://prometheus-operated:9090/api/v1/query?" +
                 "query=sum(avg_over_time("+ topici+"%5B20s%5D))";
         String testtopic2 = "http://prometheus-operated:9090/api/v1/query?query=sum(avg_over_time("
+                + topico + "%5B20s%5D))";*/
+
+       /* String testtopic1i = "http://prometheus-operated:9090/api/v1/query?" +
+                "query=sum(avg_over_time("+ topici+"%5B20s%5D))";*/
+        String testtopic2 = "http://prometheus-operated:9090/api/v1/query?query=sum(avg_over_time("
                 + topico + "%5B20s%5D))";
+
 
         List<URI> queries = new ArrayList<>();
         try {
             queries = Arrays.asList(
-                    new URI(testtopic1i),
+                   // new URI(testtopic1i),
                     new URI(testtopic2)
             );
         } catch (URISyntaxException e) {
@@ -48,13 +54,15 @@ public class QueryForBF {
                         .thenApply(HttpResponse::body))
                 .collect(Collectors.toList());
 
-        double[] rate = new double[2];
-        int i=0;
+    /*    double[] rate = new double[2];
+        int i=0;*/
+        double resp=0;
         for (CompletableFuture<String> cf :  results) {
             //System.out.println(parseJson(cf.get()));
-            rate[i++]= parseJson(cf.get());
+            resp = parseJson(cf.get());
         }
-
+        return resp;
+/*
         if(rate[1]==0 || rate[0]== 0) return 0.0;
 
     try {
@@ -62,7 +70,7 @@ public class QueryForBF {
         } catch (Exception e) {
             log.info("looks like no data");
             return 0;
-        }
+        }*/
     }
 
 

@@ -49,12 +49,12 @@ public class Main {
         g.addVertex(0, g0);
         g.addVertex(1, g1);
         g.addVertex(2, g2);
-        g.addVertex(3, g3);
+        //g.addVertex(3, g3);
 
         g.addEdge(0, 1);
         g.addEdge(0, 2);
-        g.addEdge(1, 3);
-        g.addEdge(2, 3);
+       /* g.addEdge(1, 3);
+        g.addEdge(2, 3);*/
 
         ////////////////////////////////////
 
@@ -94,7 +94,7 @@ public class Main {
         ArrivalRates.arrivalRateTopic2(g.getVertex(2).getG());*/
 
         Util.computeBranchingFactors(g);
-        for (int m = 0; m < topoOrder.size(); m++) {
+        /*for (int m = 0; m < topoOrder.size(); m++) {
             log.info("Vertex/CG number {} in topo order is {}", m, topoOrder.get(m).getG().getName());
             getArrivalRate(g, m);
             if (Duration.between(topoOrder.get(m).getG().getLastUpScaleDecision(),
@@ -102,7 +102,7 @@ public class Main {
                 //queryconsumergroups.QueryRate.queryConsumerGroup();
                 BinPack2.scaleAsPerBinPack(topoOrder.get(m).getG());
             }
-        }
+        }*/
     }
 
 

@@ -46,7 +46,7 @@ public class Util {
         for (int parent = 0; parent < A.length ;parent++) {
         for (int child = 0; child < A[parent].length; child++) {
             if (A[parent][child] == 1) {
-                double bf =  QueryForBF.queryForBF(g.getVertex(parent).getG().getInputTopic()+"Total",
+                double bf =  QueryForBF.queryForBF(/*g.getVertex(parent).getG().getInputTopic()+"Total",*/
                         g.getVertex(parent).getG().getInputTopic() +     g.getVertex(child).getG().getInputTopic());
                 g.setBF(parent,child, bf);
                 log.info("BF[{}][{}]={}", parent, child, g.getBF()[parent][child]);
