@@ -17,13 +17,11 @@ public class ConsumerGroup {
     double totalArrivalRate;
     double totalLag;
     double dynamicAverageMaxConsumptionRate;
-    double wsla = 2;
+    double wsla = 1;
     Instant lastUpScaleDecision = Instant.now();
 
     public ConsumerGroup(String inputTopic, Integer size,
-/*
                          double dynamicAverageMaxConsumptionRate,
-*/
                          double wsla, String name, String kname) {
         this.inputTopic = inputTopic;
         this.size = size;

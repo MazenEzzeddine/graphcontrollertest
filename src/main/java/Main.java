@@ -37,14 +37,14 @@ public class Main {
                 "client", "testgroup4");
 */
 
-        ConsumerGroup g0 = new ConsumerGroup("testtopic1", 1, 1.66,
+        ConsumerGroup g0 = new ConsumerGroup("testtopic1", 1,85,  0.5,
                 "security", "testgroup1");
-        ConsumerGroup g1 = new ConsumerGroup("testtopic2", 1, 1.66,
-                "visa", "testgroup2");
-        ConsumerGroup g2 = new ConsumerGroup("testtopic3", 1, 1.66,
-                "merchant", "testgroup3");
-        ConsumerGroup g3 = new ConsumerGroup("testtopic4", 1, 1.66,
-                "client", "testgroup4");
+        ConsumerGroup g1 = new ConsumerGroup("testtopic2", 1, 85,0.5,
+                "merchant", "testgroup2");
+        ConsumerGroup g2 = new ConsumerGroup("testtopic3", 1, 85,  0.5,
+                "client", "testgroup3");
+/*        ConsumerGroup g3 = new ConsumerGroup("testtopic4", 1, 1.66,
+                "client", "testgroup4");*/
 
         g.addVertex(0, g0);
         g.addVertex(1, g1);
@@ -52,7 +52,7 @@ public class Main {
         //g.addVertex(3, g3);
 
         g.addEdge(0, 1);
-        g.addEdge(0, 2);
+        g.addEdge(1, 2);
        /* g.addEdge(1, 3);
         g.addEdge(2, 3);*/
 
@@ -89,12 +89,31 @@ public class Main {
     static void QueryingPrometheus(Graph g, List<Vertex> topoOrder)
             throws ExecutionException, InterruptedException {
 
-       /* ArrivalRates.arrivalRateTopic1(g);
-        ArrivalRates.arrivalRateTopic2(g.getVertex(1).getG());
-        ArrivalRates.arrivalRateTopic2(g.getVertex(2).getG());*/
+        ArrivalRates.arrivalRateTopicGeneral(g.getVertex(0).getG(), false);
+        ArrivalRates.arrivalRateTopicGeneral(g.getVertex(1).getG(), false);
+        ArrivalRates.arrivalRateTopicGeneral(g.getVertex(2).getG(), false);
+
+
+        if (Duration.between(topoOrder.get(0).getG().getLastUpScaleDecision(),
+                Instant.now()).getSeconds() > 10) {
+            //queryconsumergroups.QueryRate.queryConsumerGroup();
+            BinPack2.scaleAsPerBinPack(topoOrder.get(0).getG());
+        }
+
+        if (Duration.between(topoOrder.get(1).getG().getLastUpScaleDecision(),
+                Instant.now()).getSeconds() > 10) {
+            //queryconsumergroups.QueryRate.queryConsumerGroup();
+            BinPack2.scaleAsPerBinPack(topoOrder.get(1).getG());
+        }
+
+        if (Duration.between(topoOrder.get(2).getG().getLastUpScaleDecision(),
+                Instant.now()).getSeconds() > 10) {
+            //queryconsumergroups.QueryRate.queryConsumerGroup();
+            BinPack2.scaleAsPerBinPack(topoOrder.get(2).getG());
+        }
 
        // Util.computeBranchingFactors(g);
-        for (int m = 0; m < topoOrder.size(); m++) {
+       /* for (int m = 0; m < topoOrder.size(); m++) {
             log.info("Vertex/CG number {} in topo order is {}", m, topoOrder.get(m).getG().getName());
             getArrivalRate(g, m);
             if (Duration.between(topoOrder.get(m).getG().getLastUpScaleDecision(),
@@ -102,7 +121,7 @@ public class Main {
                 //queryconsumergroups.QueryRate.queryConsumerGroup();
                 BinPack2.scaleAsPerBinPack(topoOrder.get(m).getG());
             }
-        }
+        }*/
     }
 
 

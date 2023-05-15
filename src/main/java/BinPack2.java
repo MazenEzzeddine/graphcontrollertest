@@ -59,13 +59,13 @@ public class BinPack2 {
         double dynamicAverageMaxConsumptionRate = g.getDynamicAverageMaxConsumptionRate();
 
 
-        for (Partition partition : parts) {
+       /* for (Partition partition : parts) {
             if (partition.getLag() > maxLagCapacity) {
                 log.info("Since partition {} has lag {} higher than consumer capacity times wsla {}" +
                         " we are truncating its lag", partition.getId(), partition.getLag(), maxLagCapacity);
                 partition.setLag(maxLagCapacity);
             }
-        }
+        }*/
         //if a certain partition has an arrival rate  higher than R  set its arrival rate  to R
         //that should not happen in a well partionned topic
         for (Partition partition : parts) {
@@ -90,10 +90,10 @@ public class BinPack2 {
 
             for (j = 0; j < parts.size(); j++) {
                 int i;
-                Collections.sort(consumers);
+                Collections.sort(consumers, Collections.reverseOrder());
                 for (i = 0; i < consumerCount; i++) {
 
-                    if (consumers.get(i).getRemainingLagCapacity() >= parts.get(j).getLag() &&
+                    if (/*consumers.get(i).getRemainingLagCapacity() >= parts.get(j).getLag() &&*/
                             consumers.get(i).getRemainingArrivalCapacity() >= parts.get(j).getArrivalRate()) {
                         consumers.get(i).assignPartition(parts.get(j));
                         break;
@@ -117,20 +117,20 @@ public class BinPack2 {
         List<Consumer> consumers = new ArrayList<>();
         int consumerCount = 1;
         List<Partition> parts = new ArrayList<>(g.getTopicpartitions());
-        double dynamicAverageMaxConsumptionRate = g.getDynamicAverageMaxConsumptionRate() * 0.6;
+        double dynamicAverageMaxConsumptionRate = g.getDynamicAverageMaxConsumptionRate() * 0.7;
 
         long maxLagCapacity;
         maxLagCapacity = (long) (dynamicAverageMaxConsumptionRate * g.getWsla());
 
         //if a certain partition has a lag higher than R Wmax set its lag to R*Wmax
         // atention to the window
-        for (Partition partition : parts) {
+       /* for (Partition partition : parts) {
             if (partition.getLag() > maxLagCapacity) {
                 log.info("Since partition {} has lag {} higher than consumer capacity times wsla {}" +
                         " we are truncating its lag", partition.getId(), partition.getLag(), maxLagCapacity);
                 partition.setLag(maxLagCapacity);
             }
-        }
+        }*/
         //if a certain partition has an arrival rate  higher than R  set its arrival rate  to R
         //that should not happen in a well partionned topic
         for (Partition partition : parts) {
@@ -148,16 +148,16 @@ public class BinPack2 {
             int j;
             consumers.clear();
             for (int t = 0; t < consumerCount; t++) {
-                consumers.add(new Consumer((String.valueOf(consumerCount)), maxLagCapacity,
+                consumers.add(new Consumer((String.valueOf(consumerCount)), 0L,
                         dynamicAverageMaxConsumptionRate));
             }
 
             for (j = 0; j < parts.size(); j++) {
                 int i;
-                Collections.sort(consumers);
+                Collections.sort(consumers, Collections.reverseOrder());
                 for (i = 0; i < consumerCount; i++) {
 
-                    if (consumers.get(i).getRemainingLagCapacity() >= parts.get(j).getLag() &&
+                    if (/*consumers.get(i).getRemainingLagCapacity() >= parts.get(j).getLag() &&*/
                             consumers.get(i).getRemainingArrivalCapacity() >= parts.get(j).getArrivalRate()) {
                         consumers.get(i).assignPartition(parts.get(j));
                         break;
